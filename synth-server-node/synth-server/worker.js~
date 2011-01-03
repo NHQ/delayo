@@ -1,0 +1,29 @@
+this.onmessage = function(evt){
+
+    var self = this;
+    
+    var id = evt.data.id;
+
+    var player = AV.Asset.fromURL('http://10.0.0.3:11002/audio.acc?' + evt.data.uri);
+
+
+
+    player.on('format', function(d){
+      d.size = player.source.length;
+      self.postMessage({type: 'meta', data: d});
+    })
+
+    player.on('meta', function(d){
+	self.postMessage({id: id, type: 'meta', data: d})
+    })
+
+    player.on('data', function(buffer){
+	self.postMessage({id: id, buffer: buffer})
+    });
+
+    player.on('end', function(){
+	self.postMessage({id: id, type: 'end'})
+    });
+
+    player.start();
+}

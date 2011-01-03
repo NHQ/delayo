@@ -49,12 +49,13 @@ sourceCap.style.float = 'right';
 console.log(sourceCap);
 
 document.body.appendChild(sourceCap);
+
 sourceCap.addEventListener('sourceCap', function(e){
 
-    if(source) {
-      source.mediaElement.stop();
-      source.disconnect();
-    };
+  if(source) {
+    source.mediaElement.stop();
+    source.disconnect();
+  };
 
     window.source = e.detail;
 //    source.mediaElement.playbackRate = 1.337;

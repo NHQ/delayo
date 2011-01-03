@@ -1,0 +1,16 @@
+var streamNode = require('./');
+var jsynth = require('jsynth');
+var jdelay = require('jdelay');
+
+var master = new webkitAudioContext();
+var uri = 'http://www.youtube.com/watch?v=vftIGU8-uqs';
+
+var source = streamNode(master, uri);
+
+var delayo = jdelay(master.sampleRate * 1.333, .99, .33);
+
+var delay = jsynth(master, delayr)
+
+function delayr(t, i, sample)[
+  return delayo(sample);
+}

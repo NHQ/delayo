@@ -48,6 +48,8 @@ module.exports = function(sourceEvents){
 			    ontouchdown: function(e){e.preventDefault();click.call(ytext, e)}
 			    });
 
+    touchdown.start(ytextModeButton)
+
     var ytextModeInfo = html('p.infoHelp', 
       [ 'You can load audio from almost anywhere on the internet: youtube, vimeo, soundcloud, bandcamp, synth.fm, or a direct link to an audio or video file. Soon you\'ll be able to search those same sources for multiple results, and even capture live ogg/mp3 streams.' 
       , html('br')
@@ -71,6 +73,17 @@ module.exports = function(sourceEvents){
 	}))
     ]) 
 
+    var sampleModeInfo = html('p.infoHelp', [
+	'Load a one of your saved samples, your friend\'s samples, or search synth.fm.',
+	html('div.sourceSamples')
+    ]) 
+
+    var micLineModeInfo = html('p.infoHelp', [
+	'This will turn your mic or line-input into an audio source! Do it!'
+    ]) 
+
+
+
     var ytextMode = html('div#sourceURL');
     var fileMode = html('div#soureceFile');
     var micLineMode = html('div#sourceMicLine');
@@ -81,11 +94,19 @@ module.exports = function(sourceEvents){
     mode.appendChild(micLineMode);
     mode.appendChild(sampleMode);
 
-    fileMode.appendChild(fileModeInfo);
-
     ytextLabel.appendChild(ytext);
+    ytextLabel.appendChild(ytextModeButton);
+
     ytextMode.appendChild(ytextLabel)
     ytextMode.appendChild(ytextModeInfo)
+
+    fileMode.appendChild(fileModeInfo);
+    micLineMode.appendChild(micLineModeInfo)
+    sampleMode.appendChild(sampleModeInfo)
+
+
+
+// start of options ... ?
 
     var ytextOptionLabel = html('div.uxer-flatfield-label.sourceCapOptsLabel');
     var ytextOptionButton = html('button.uxer-flat-button',

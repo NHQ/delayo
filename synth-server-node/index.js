@@ -20,6 +20,7 @@ module.exports = function(master, uri, cb){
     var master = master;
     var source = Object.create(null);
     var slave = slave || enslave(code);
+    var synth;
 
     slave.postMessage({id: id++, uri: uri, sampleRate: master.sampleRate});
 
@@ -38,7 +39,8 @@ module.exports = function(master, uri, cb){
 
 	    var bufSize = 256 * 2 * 2 * 2 * 2 * 2;
 
-	    var synth = master.createScriptProcessor(bufSize, data.channelsPerFrame, data.channelsPerFrame);
+	    synth = master.createScriptProcessor(bufSize, data.channelsPerFrame, data.channelsPerFrame);
+	    synth.source = source;
 	    synth.bufSize = bufSize;
 	    synth.bufIndex = 0;
 	    synth.id = id;
@@ -59,15 +61,17 @@ module.exports = function(master, uri, cb){
 		this.bufIndex+=this.bufSize
 	    };
 
-	    cb(null, synth)
+//	    cb(null, synth)
 
 	}
 	else if(evt.data.type == 'end'){
+	    cb(null, synth)
 
 //	    alert((new Date().getTime() - startTime) / 1000)
 	}
 	else if(evt.data.type == 'progress'){
-	    console.log(evt.data.data);
+	    console.log('progress');
+//	    console.log(evt.data.data);
 	}
 	else {
 	    var wsb = source.buffers;

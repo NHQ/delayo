@@ -1,0 +1,66 @@
+webkitAudioContext.prototype.createScriptProcessor = webkitAudioContext.prototype.createJavaScriptNode
+if(!window.URL) window.URL = {createObjectURL: window.webkitURL.createObjectURL}
+
+var fs = require('fs');
+var enslave = require('work-slave');
+var buffers = require('buffers');
+
+var floatConcat = require('./floatConcat.js');
+var aurora = fs.readFileSync('./aurora.js');
+var aac = fs.readFileSync('./aac.js');
+var worker = fs.readFileSync('./worker.js');
+var code = aurora + aac + worker;
+var slave = undefined 
+var id = 0;
+
+module.exports = function(master, uri, size){
+    var master = master;
+    var source = Object.create(null);
+    var slave = slave || enslave(code);
+
+    slave.postMessage({id: id++, uri: uri, sampleRate: master.sampleRate});
+
+    slave.onmessage = function(evt){
+	if(evt.data.type == 'meta'){
+	    var data = evt.data.data;
+	    source.data = data;
+	    source.buffers = new Array(data.channelsPerFrame);
+	    for(var x = 0; x < source.buffers.length; x++){
+		source.buffers[x] = buffers(6);
+	    }
+	}
+	else if(evt.data.type == 'end'){
+	    console.log('finished')
+//	    alert((new Date().getTime() - startTime) / 1000)
+	}
+	else {
+	    var wsb = source.buffers;
+	    for(x in evt.data.buffer){
+		wsb[x].push(evt.data.buffer[x]);
+	    }
+	}
+    }
+
+    var startTime = new Date().getTime();
+
+    var bufSize = size || 256 * 2 * 2 * 2 * 2 * 2;
+    var synth = master.createScriptProcessor(bufSize, 2, 2);
+    synth.bufSize = bufSize;
+    synth.bufIndex = 0;
+
+    synth.onaudioprocess = function(evt){
+	var outputBuffer = event.outputBuffer;
+	var channelCount = outputBuffer.numberOfChannels;
+	var channels = new Array(channelCount);
+	for (i = _i = 0; _i < channelCount; i = _i += 1) {
+	    channels[i] = outputBuffer.getChannelData(i);
+	}
+	for(var x = 0; x < channels.length; x++){
+	    channels[x].set(source.buffers[x].slice(this.bufIndex, this.bufIndex + this.bufSize));
+	}
+	this.bufIndex+=this.bufSize
+    };
+
+    return synth
+}
+

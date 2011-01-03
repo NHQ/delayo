@@ -49,7 +49,8 @@ module.exports = function(app){
 
     function click(e){
 
-	if(this.name == 'url'){
+	if(this.name == 'sourceURL'){
+
 	    e.preventDefault();
 	    var uri = this.value;
 	    if(uri.length){
@@ -58,7 +59,7 @@ module.exports = function(app){
 		if(((parsed.slashes || parsed.protocol) && (parsed.hostname.match('youtube.com'))) || 
 		   (parsed.pathname && parsed.pathname.match('youtube.com'))) {
 
-		    if(Modernizr.touch){
+		    if(Modernizr.Touch || true){
 
 			var source = ssn(master, uri, function(err, source){
 			    app.emit('sourceCap', err, source)
@@ -68,7 +69,6 @@ module.exports = function(app){
 
 		    else{
 
-			// this is not gonna happen...
 			var id = parsed.hostname === 'youtu.be' 
 			    ? parsed.pathname.slice(1) : parsed.query.v;
 
@@ -78,7 +78,7 @@ module.exports = function(app){
 				var URI = data;
 				var video = document.createElement('video');
 				video.src = URI;
-				video.addEventListener('loadstart', function(){
+				video.addEventListener('canplay', function(){
 				    var source = context.createMediaElementSource(video);
 				    app.emit('sourceCap', null, source)
 				});

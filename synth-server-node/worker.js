@@ -7,7 +7,7 @@ this.onmessage = function(evt){
     var id = evt.data.id;
     var chans = 1;
 
-    var player = AV.Asset.fromURL('http://10.0.0.3:11002/youtube?' + evt.data.uri);
+    var player = AV.Asset.fromURL('http://localhost:11002/youtube?' + evt.data.uri);
 
     player.on('format', function(d){
 

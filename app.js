@@ -7,6 +7,7 @@ var css = fs.readFileSync('../css/app.css', 'utf8');
 var png = fs.readFileSync('./search.png', 'base64');
 
 var loadSrc = require('./loadSrc')
+var createSource = require('./createSource');
 
 appendCSS(css, 'synthFM')
  
@@ -20,10 +21,10 @@ app.user = {}
 app.micLine = null
 app.loadSrc = loadSrc(app)
 
-app.loadSrc(function(err, src){
-    console.log(err, src)
-})
+app.loadSrc(createSource)
  
+//app.on('sourceCap', createSource)
+
 app.on('error', function(err){
     console.log(err)
 })
