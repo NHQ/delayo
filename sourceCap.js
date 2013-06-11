@@ -151,7 +151,7 @@ module.exports = function(context){
 			var id = parsed.hostname === 'youtu.be' 
 			    ? parsed.pathname.slice(1) : parsed.query.v;
 
-			hyperquest('http://10.0.0.3:11002/get_info?'+uri, function(err, res){
+			hyperquest('http://localhost:11002/get_info?'+uri, function(err, res){
 			    res.on('data', function(data){
 
 				var URI = data;

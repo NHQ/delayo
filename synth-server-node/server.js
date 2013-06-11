@@ -12,7 +12,7 @@ var filed = require('filed');
 var tracks = {};
 
 var server = http.createServer(function(req, res){
-
+console.log(req.headers);
     if(req.method === 'OPTIONS') {
 	var header = {
 	    'Access-Control-Allow-Origin' : '*',

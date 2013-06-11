@@ -7,6 +7,7 @@ var Delay = require('../delay');
 var reqFrame = require('./reqFrame')();
 // window / DOM stuff
 
+//var _audio = new AudioContext();
 var audio = new webkitAudioContext();
 
 window.audio = window.master = audio;
@@ -40,10 +41,13 @@ var getdl = trow(param.dlength, param.dlength, param.dsmoothing);
 
 // source input
 
-  // file picker
-
+// file picker
 
 var sourceCap = require('./sourceCap.js')(audio);
+sourceCap.style.width = '400px';
+sourceCap.style.float = 'right';
+console.log(sourceCap);
+
 document.body.appendChild(sourceCap);
 sourceCap.addEventListener('sourceCap', function(e){
 
