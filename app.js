@@ -1,7 +1,7 @@
 var inherits = require('inherits')
 var emitter = require('events').EventEmitter
 var fs = require('fs');
-var appendCSS = require('../uxer/appendCSS');
+var appendCSS = require('uxer/appendCSS');
 
 var css = fs.readFileSync('../css/app.css', 'utf8');
 var png = fs.readFileSync('./search.png', 'base64');

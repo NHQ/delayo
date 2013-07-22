@@ -3,9 +3,9 @@ if(!window.URL) window.URL = {createObjectURL: window.webkitURL.createObjectURL}
 
 var fs = require('fs');
 var enslave = require('work-slave');
-var buffers = require('buffers');
+var buffers = require('jbuffers');
 
-var floatConcat = require('./floatConcat.js');
+//var floatConcat = require('./floatConcat.js');
 
 var worker = fs.readFileSync(__dirname + '/worker.js', 'utf8');
 var aurora = fs.readFileSync(__dirname + '/aurora.js');

@@ -2,7 +2,7 @@ var fs = require('fs');
 var css = fs.readFileSync('../css/flatfield.css', 'utf8');
 var html = require('hyperscript');
 var touchdown = require('touchdown');
-var appendCSS = require('../uxer/appendCSS');
+var appendCSS = require('uxer/appendCSS');
 var hover = require('mouse-around')
 
 module.exports = function(sourceEvents){

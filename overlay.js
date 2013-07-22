@@ -1,7 +1,7 @@
 var ee = require('events').EventEmitter
 var fs = require('fs')
 var html = require('hyperscript')
-var center = require('../uxer/center')
+var center = require('uxer/center')
 var css = fs.readFileSync('../css/overlay.css', 'utf8');
 var appendCSS = require('./appendCSS')
 
